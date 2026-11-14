@@ -1,0 +1,44 @@
+[project]
+name = "test-mic-audio"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "av>=16,<17",
+    "numpy>=2.2,<3",
+    "PySide6>=6.9,<7",
+    "sounddevice>=0.5,<0.6",
+]
+
+[project.scripts]
+audio-loopback-tester = "audio_loopback.app:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/audio_loopback"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"assets/sample-30s.mp3" = "audio_loopback/assets/sample-30s.mp3"
+"assets/sample-30s-720p.mp4" = "audio_loopback/assets/sample-30s-720p.mp4"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.0,<0.17",
+    "pytest>=8,<10",
+]
+build = [
+    "pyinstaller>=6.16,<7",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+extend-exclude = ["build", "dist"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
